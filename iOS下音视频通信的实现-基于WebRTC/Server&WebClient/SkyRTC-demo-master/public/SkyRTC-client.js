@@ -125,7 +125,7 @@ var SkyRTC = function() {
         };
 
         this.on('_peers', function(data) {
-            //获取所有服务器上的
+            //获取所有服务器上的 
             that.connections = data.connections;
             that.me = data.you;
             that.emit("get_peers", that.connections);
