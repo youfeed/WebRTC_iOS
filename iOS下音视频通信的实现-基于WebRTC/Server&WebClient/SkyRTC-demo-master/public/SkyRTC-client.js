@@ -133,7 +133,12 @@ var SkyRTC = function() {
         });
 
         this.on("_ice_candidate", function(data) {
-            var candidate = new nativeRTCIceCandidate(data);
+            // W3C 文档说可以忽略 W3C骗我哦~
+            var candidate = new nativeRTCIceCandidate({
+                candidate: data.candidate,
+                sdpMid: null,
+                sdpMLineIndex:data.label
+            });
             var pc = that.peerConnections[data.socketId];
             pc.addIceCandidate(candidate);
             that.emit('get_ice_candidate', candidate);
@@ -231,9 +236,11 @@ var SkyRTC = function() {
             element.mozSrcObject = stream;
             element.play();
         } else {
-            element.src = webkitURL.createObjectURL(stream);
+            element.srcObject = stream;
+            // element.src = webkitURL.createObjectURL(stream);
         }
-        element.src = webkitURL.createObjectURL(stream);
+        element.srcObject = stream;
+        // element.src = webkitURL.createObjectURL(stream);
     };
 
 
